@@ -78,14 +78,22 @@ class TaskManager:
         self.filename = filename
         self.tasks: List[Task] = []
     
-    def add_task(self, title: str, description: str = "", priority: str = "medium") -> Task:
-        """Add a new task"""
-        if not title.strip():
-            raise ValueError("Task title cannot be empty")
-        
-        task = Task(title.strip(), description.strip(), priority)
-        self.tasks.append(task)
-        return task
+    def add_task():
+    title = input("Enter task title: ")
+    description = input("Enter task description: ")
+    due_date = input("Enter due date (YYYY-MM-DD): ")  # ← NEW input
+
+    task = {
+        "title": title,
+        "description": description,
+        "due_date": due_date,  # ← NEW field
+        "completed": False
+    }
+
+    tasks.append(task)
+    save_tasks()  # Assuming you have a function to write tasks to file
+    print("✅ Task added successfully.\n")
+
     
     def delete_task(self, task_id: str) -> bool:
         """Delete a task by ID"""
