@@ -4,6 +4,35 @@ from datetime import datetime
 from typing import List, Dict, Optional
 
 class Task:
+    from datetime import datetime  # Add at the top
+
+class Task:
+    def __init__(self, title, description, completed=False, priority="Medium", due_date=None):
+        self.title = title
+        self.description = description
+        self.completed = completed
+        self.priority = priority
+        self.due_date = due_date  # NEW
+
+    def to_dict(self):
+        return {
+            "title": self.title,
+            "description": self.description,
+            "completed": self.completed,
+            "priority": self.priority,
+            "due_date": self.due_date  # NEW
+        }
+
+    @classmethod
+    def from_dict(cls, data):
+        return cls(
+            data["title"],
+            data["description"],
+            data.get("completed", False),
+            data.get("priority", "Medium"),
+            data.get("due_date")  # NEW
+        )
+
     """Represents a single task"""
     
     def __init__(self, title: str, description: str = "", priority: str = "medium"):
