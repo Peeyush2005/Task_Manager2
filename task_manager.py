@@ -47,7 +47,23 @@ class Task:
         # Validate priority
         if self.priority not in ["low", "medium", "high"]:
             self.priority = "medium"
-    
+
+def search_tasks():
+    keyword = input("🔎 Enter keyword to search in task title or category: ").lower()
+    found = False
+
+    for i, task in enumerate(tasks):
+        if keyword in task['title'].lower() or keyword in task.get('category', '').lower():
+            print(f"{i+1}. {task['title']} [{task.get('category', 'No category')}]")
+            print(f"   📄 Description: {task['description']}")
+            print(f"   🕒 Due Date: {task.get('due_date', 'Not set')}")
+            print(f"   ✅ Completed: {'Yes' if task['completed'] else 'No'}\n")
+            found = True
+
+    if not found:
+        print("⚠️ No tasks matched your search.\n")
+
+
     def _generate_id(self) -> str:
         """Generate a unique task ID"""
         return str(int(datetime.now().timestamp() * 1000000))
@@ -107,14 +123,22 @@ class TaskManager:
         self.filename = filename
         self.tasks: List[Task] = []
     
-    def add_task(self, title: str, description: str = "", priority: str = "medium") -> Task:
-        """Add a new task"""
-        if not title.strip():
-            raise ValueError("Task title cannot be empty")
-        
-        task = Task(title.strip(), description.strip(), priority)
-        self.tasks.append(task)
-        return task
+    def add_task():
+    title = input("Enter task title: ")
+    description = input("Enter task description: ")
+    due_date = input("Enter due date (YYYY-MM-DD): ")  # ← NEW input
+
+    task = {
+        "title": title,
+        "description": description,
+        "due_date": due_date,  # ← NEW field
+        "completed": False
+    }
+
+    tasks.append(task)
+    save_tasks()  # Assuming you have a function to write tasks to file
+    print("✅ Task added successfully.\n")
+
     
     def delete_task(self, task_id: str) -> bool:
         """Delete a task by ID"""
