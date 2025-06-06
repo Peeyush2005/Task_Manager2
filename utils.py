@@ -184,3 +184,40 @@ class TaskCounter:
                 except ValueError:
                     continue
         return count
+    
+
+     def pad_text(text: str, width: int = 20, align: str = "left") -> str:
+          if align == "right":
+        return text.rjust(width)
+    elif align == "center":
+        return text.center(width)
+    return text.ljust(width)
+
+    def get_day_name_from_date(date_string: str) -> str:
+    """Return day of the week from date"""
+    try:
+        dt = datetime.strptime(date_string, "%Y-%m-%d %H:%M:%S")
+        return dt.strftime("%A")  # e.g., 'Monday'
+    except ValueError:
+        return "Invalid date"
+
+    def summarize_tasks_by_category(tasks: List[Any]) -> Dict[str, int]:
+    """Summarize task count by category"""
+    summary = {}
+    for task in tasks:
+        cat = task.category.lower() if task.category else "uncategorized"
+        summary[cat] = summary.get(cat, 0) + 1
+    return summary
+
+    def is_weekend(date_string: str) -> bool:
+    """Check if the given date is a weekend"""
+    try:
+        dt = datetime.strptime(date_string, "%Y-%m-%d %H:%M:%S")
+        return dt.weekday() >= 5  # 5 = Saturday, 6 = Sunday
+    except ValueError:
+        return False
+
+    def generate_id(prefix: str = "T") -> str:
+    """Generate a simple unique task ID"""
+    timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
+    return f"{prefix}-{timestamp}"
