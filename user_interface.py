@@ -32,6 +32,7 @@ class UserInterface:
         print("12. Manage Tags")
         print("13. View Statistics")
         print("14. Search Tasks")
+        print("15. View Overdue Tasks")
         print("0. Exit")
         print("=" * 40)
     
@@ -42,6 +43,12 @@ class UserInterface:
     def get_user_choice(self) -> str:
         """Get user menu choice"""
         return self.get_user_input("Enter your choice")
+    
+    def view_overdue_tasks(self):
+    """View tasks that are overdue"""
+    overdue_tasks = self.task_manager.get_overdue_tasks()
+    self.display_tasks(overdue_tasks, "Overdue Tasks")
+
     
     def display_tasks(self, tasks: List[Task], title: str = "Tasks"):
         """Display a list of tasks with enhanced formatting"""
@@ -465,6 +472,8 @@ class UserInterface:
                 self.view_statistics()
             elif choice == "14":
                 self.search_tasks()
+            elif choice == "15":
+                self.view_overdue_tasks()
             elif choice == "0":
                 self.running = False
                 print("\nThank you for using Task Manager v2.0!")
