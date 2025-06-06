@@ -32,6 +32,7 @@ class UserInterface:
         print("12. Manage Tags")
         print("13. View Statistics")
         print("14. Search Tasks")
+        print("15. Export Tasks to File")
         print("0. Exit")
         print("=" * 40)
     
@@ -361,6 +362,35 @@ class UserInterface:
         except ValueError:
             print("Please enter a valid number!")
             return None
+        
+
+    def export_tasks_to_file(self):
+    tasks = self.task_manager.get_all_tasks()
+    if not tasks:
+        print("\nNo tasks to export!")
+        return
+    
+    try:
+        with open("tasks_export.txt", "w", encoding="utf-8") as f:
+            f.write("Exported Tasks\n")
+            f.write("=" * 50 + "\n\n")
+            for i, task in enumerate(tasks, 1):
+                f.write(f"{i}. {task.title}\n")
+                if task.description:
+                    f.write(f"   Description: {task.description}\n")
+                f.write(f"   Priority: {task.priority}\n")
+                f.write(f"   Category: {task.category}\n")
+                f.write(f"   Tags: {', '.join(task.tags)}\n")
+                f.write(f"   Status: {'Completed' if task.completed else 'Pending'}\n")
+                f.write(f"   Created At: {task.created_at}\n")
+                if task.completed_at:
+                    f.write(f"   Completed At: {task.completed_at}\n")
+                f.write("\n")
+        
+        print("\n✅ Tasks exported successfully to 'tasks_export.txt'")
+    except Exception as e:
+        print(f"\n❌ Failed to export tasks: {e}")
+
     
     def view_statistics(self):
         """Display enhanced task statistics"""
