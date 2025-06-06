@@ -32,6 +32,9 @@ class UserInterface:
         print("12. Manage Tags")
         print("13. View Statistics")
         print("14. Search Tasks")
+        print("15. View Today's Tasks")
+print("16. Export Tasks to File")  # <-- New
+print("0. Exit")
         print("15. View Overdue Tasks")
         print("15. Export Tasks to File")
         print("0. Exit")
@@ -467,6 +470,37 @@ class UserInterface:
         
         else:
             print("Invalid search option!")
+            def export_tasks_to_file(self):
+    """Export all tasks to a text file"""
+    filename = self.get_user_input("Enter filename (without extension)")
+    if not filename:
+        print("Filename cannot be empty!")
+        return
+    
+    filename += ".txt"
+    tasks = self.task_manager.get_all_tasks()
+    
+    try:
+        with open(filename, "w", encoding="utf-8") as file:
+            file.write("Task Manager - Exported Tasks\n")
+            file.write("=" * 40 + "\n")
+            
+            for task in tasks:
+                file.write(f"Title     : {task.title}\n")
+                file.write(f"Desc      : {task.description or 'None'}\n")
+                file.write(f"Priority  : {task.priority.capitalize()}\n")
+                file.write(f"Category  : {task.category}\n")
+                file.write(f"Tags      : {', '.join(task.tags) if task.tags else 'None'}\n")
+                file.write(f"Status    : {'Completed' if task.completed else 'Pending'}\n")
+                file.write(f"Created   : {task.created_at}\n")
+                if task.completed_at:
+                    file.write(f"Completed : {task.completed_at}\n")
+                file.write("-" * 40 + "\n")
+        
+        print(f"\nTasks successfully exported to '{filename}'!")
+    except Exception as e:
+        print(f"Error exporting tasks: {e}")
+
     
     def run(self):
         """Main application loop"""
@@ -512,4 +546,7 @@ class UserInterface:
             
             if self.running:
                 input("\nPress Enter to continue...")
+                elif choice == "16":
+    self.export_tasks_to_file()
+
 
