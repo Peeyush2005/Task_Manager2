@@ -18,7 +18,23 @@ class Task:
         # Validate priority
         if self.priority not in ["low", "medium", "high"]:
             self.priority = "medium"
-    
+
+def search_tasks():
+    keyword = input("🔎 Enter keyword to search in task title or category: ").lower()
+    found = False
+
+    for i, task in enumerate(tasks):
+        if keyword in task['title'].lower() or keyword in task.get('category', '').lower():
+            print(f"{i+1}. {task['title']} [{task.get('category', 'No category')}]")
+            print(f"   📄 Description: {task['description']}")
+            print(f"   🕒 Due Date: {task.get('due_date', 'Not set')}")
+            print(f"   ✅ Completed: {'Yes' if task['completed'] else 'No'}\n")
+            found = True
+
+    if not found:
+        print("⚠️ No tasks matched your search.\n")
+
+
     def _generate_id(self) -> str:
         """Generate a unique task ID"""
         return str(int(datetime.now().timestamp() * 1000000))
